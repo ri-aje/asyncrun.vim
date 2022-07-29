@@ -1902,6 +1902,22 @@ function! s:run(opts)
 endfunc
 
 
+function! asyncrun#get_visual_selection ()
+	let savereg_plus = getreg('+')
+	let savetype_plus = getregtype('+')
+	let savereg_star = getreg('*')
+	let savetype_star = getregtype('*')
+	let savereg_quote = getreg('"')
+	let savetype_quote = getregtype('"')
+	silent normal! gvy
+	let l:selection = getreg('"')
+	call setreg('"',savereg_quote,savetype_quote)
+	call setreg('+',savereg_plus,savetype_plus)
+	call setreg('*',savereg_star,savetype_star)
+	return l:selection
+endfunction
+
+
 "----------------------------------------------------------------------
 " asyncrun - run
 "----------------------------------------------------------------------
@@ -1918,9 +1934,11 @@ function! asyncrun#run(bang, opts, args, ...)
 	let l:macros['VIM_RELDIR'] = expand("%:h:.")
 	let l:macros['VIM_RELNAME'] = expand("%:p:.")
 	let l:macros['VIM_CWORD'] = expand("<cword>")
+	let l:macros['VIM_CWORD_CAP'] = expand("<cWORD>")
 	let l:macros['VIM_CFILE'] = expand("<cfile>")
 	let l:macros['VIM_CLINE'] = line('.')
 	let l:macros['VIM_CCOL'] = col('.')
+	let l:macros['VIM_VISUAL_SELECTION'] = asyncrun#get_visual_selection()
 	let l:macros['VIM_VERSION'] = ''.v:version
 	let l:macros['VIM_SVRNAME'] = v:servername
 	let l:macros['VIM_COLUMNS'] = ''.&columns
