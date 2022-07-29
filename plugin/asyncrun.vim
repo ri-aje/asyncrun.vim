@@ -1920,6 +1920,7 @@ function! asyncrun#run(bang, opts, args, ...)
 	let l:macros['VIM_CWORD'] = expand("<cword>")
 	let l:macros['VIM_CFILE'] = expand("<cfile>")
 	let l:macros['VIM_CLINE'] = line('.')
+	let l:macros['VIM_CCOL'] = col('.')
 	let l:macros['VIM_VERSION'] = ''.v:version
 	let l:macros['VIM_SVRNAME'] = v:servername
 	let l:macros['VIM_COLUMNS'] = ''.&columns
