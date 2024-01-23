@@ -2106,18 +2106,13 @@ endfunc
 
 
 function! asyncrun#get_visual_selection ()
-	let savereg_plus = getreg('+')
-	let savetype_plus = getregtype('+')
-	let savereg_star = getreg('*')
-	let savetype_star = getregtype('*')
-	let savereg_quote = getreg('"')
-	let savetype_quote = getregtype('"')
-	silent normal! gvy
-	let l:selection = getreg('"')
-	call setreg('"',savereg_quote,savetype_quote)
-	call setreg('+',savereg_plus,savetype_plus)
-	call setreg('*',savereg_star,savetype_star)
-	return l:selection
+	try
+		let v_save = @v
+		normal! gv"vy
+		return @v
+	finally
+		let @v = v_save
+	endtry
 endfunction
 
 
